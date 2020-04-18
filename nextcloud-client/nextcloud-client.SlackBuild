@@ -2,9 +2,10 @@
 
 # Slackware build script for nextcloud-client
 
-# Copyright 2013-2016 Christopher Walker Copperas Cove, TX
-# Copyright 2016-2018 Chris Abela <kristofru@gmail.com>, Malta
+# Copyright 2020 Andrew Payne <phalange@komputermatrix.com>
 # Copyright 2017-2018 Rodrigo Gimenez <estrod@zoho.com>, Argentina
+# Copyright 2016-2018 Chris Abela <kristofru@gmail.com>, Malta
+# Copyright 2013-2016 Christopher Walker Copperas Cove, TX
 # All rights reserved.
 #
 # Redistribution and use of this script, with or without modification, is
@@ -24,15 +25,14 @@
 #  OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF
 #  ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
-# This is based on the owncloud-client slackbuild in https://slackbuilds.org
+# Version history
+# 20200417 update version 2.6.4
 
 PRGNAM=nextcloud-client
+SRCNAM=desktop
 VERSION=${VERSION:-2.6.4}
-#OWNCLOUD_VERSION=${OWNCLOUD_VERSION:-2.4.2}
 BUILD=${BUILD:-1}
 TAG=${TAG:-_SBo}
-
-SRCNAM=desktop
 
 if [ -z "$ARCH" ]; then
   case "$( uname -m )" in
@@ -68,11 +68,8 @@ mkdir -p $TMP $PKG $OUTPUT
 cd $TMP
 rm -rf $PRGNAM
 tar xvf $CWD/$SRCNAM-$VERSION.tar.gz
-#mv $SRCNAM-$VERSION $SRCNAM
-cd $SRCNAM-$VERSION
-#tar xvf $CWD/client-$OWNCLOUD_VERSION.tar.gz
-#rmdir client
-#mv client-$OWNCLOUD_VERSION client
+mv $SRCNAM-$VERSION $PRGNAM-$VERSION
+cd $PRGNAM-$VERSION
 
 chown -R root:root .
 find -L . \
@@ -96,29 +93,11 @@ cd build
   make install DESTDIR=$PKG
 cd ..
 
-
-# mkdir -p build
-# cd build
-#   cmake \
-#     -DCMAKE_C_FLAGS="$SLKCFLAGS" \
-#     -DCMAKE_CXX_FLAGS="$SLKCFLAGS" \
-#     -DCMAKE_INSTALL_PREFIX=/usr \
-#     -DCMAKE_INSTALL_DOCDIR=/usr/doc/$PRGNAM-$VERSION \
-#     -DCMAKE_INSTALL_MANDIR=/usr/man \
-#     -DCMAKE_INSTALL_SYSCONFDIR=/etc/$PRGNAM \
-#     -DCMAKE_BUILD_TYPE="Release" \
-#     # -D OEM_THEME_DIR=$(realpath ../nextcloudtheme) \
-#     ..
-#   make VERBOSE=1
-#   make install DESTDIR=$PKG
-# cd ..
-
 find $PKG -print0 | xargs -0 file | grep -e "executable" -e "shared object" | grep ELF \
   | cut -f 1 -d : | xargs strip --strip-unneeded 2> /dev/null || true
 
 mkdir -p $PKG/usr/doc/$PRGNAM-$VERSION
-cp -a CONTRIBUTING.md COPYING README.md \
-  $PKG/usr/doc/$PRGNAM-$VERSION
+cp -a CONTRIBUTING.md COPYING README.md $PKG/usr/doc/$PRGNAM-$VERSION
 cat $CWD/$PRGNAM.SlackBuild > $PKG/usr/doc/$PRGNAM-$VERSION/$PRGNAM.SlackBuild
 
 mkdir -p $PKG/usr/man/man1

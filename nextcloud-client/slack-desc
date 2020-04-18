@@ -8,12 +8,12 @@
                 |-----handy-ruler------------------------------------------------------|
 nextcloud-client: nextcloud-client (Nextcloud Desktop Client)
 nextcloud-client:
-nextcloud-client: The Nextcloud Client is a file synchronization desktop utility. It
-nextcloud-client: synchronizes files on your local computer, tablet, or hand-held
-nextcloud-client: device with a Nextcloud Server. If you make a change to the files on
-nextcloud-client: one device, the change is propagated to all other synchronized
-nextcloud-client: devices using the desktop synchronization clients.
-nextcloud-client:
-nextcloud-client: Nextcloud is an actively maintained fork of ownCloud.
+nextcloud-client: The computer Nextcloud Desktop Client is a tool to synchronize files
+nextcloud-client: from Nextcloud Server with your computer.
 nextcloud-client:
 nextcloud-client: Homepage: http://nextcloud.com/
+nextcloud-client:
+nextcloud-client:
+nextcloud-client:
+nextcloud-client:
+nextcloud-client:
