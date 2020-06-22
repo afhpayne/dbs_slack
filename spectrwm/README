@@ -5,13 +5,17 @@ language to do any configuration. It was written by hackers for hackers and it
 strives to be small, compact and fast.
 
 NOTES:
-The installer includes several config files, namely:
-baraction.sh (scripts for the status bar in Linux)
-spectrwm.conf (a default configuration file)
-spectrwm_$LANGUAGE.conf (language-specfic keyboard layouts)
+The installer includes several example files, including:
+* baraction.sh (scripts for the status bar in Linux)
+* spectrwm.conf (a default configuration file)
+* spectrwm_$LANGUAGE.conf (language-specfic keyboard layouts)
 
 All these files can be found in /usr/doc/spectrwm-$VERSION
 
-spectrwm will look for
-.spectrwm.conf and .spectrwm_us.conf in $HOME/user/
-and baraction.sh in an executable path which can be specified in the config
+The installer places a default spectrwm.conf in /etc but spectrwm will also look
+for .spectrwm.conf and .spectrwm_us.conf in $HOME/user/
+
+baraction.sh can go in an executable path which should be named in .spectrwm.conf
+
+Finally, dmenu is a soft dependency, and spectrwm will give a warning if it's
+missing. However it's not essential and some users may prefer rofi anyway.
