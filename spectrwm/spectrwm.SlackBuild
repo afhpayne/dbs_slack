@@ -4,25 +4,22 @@
 # Copyright (c) 2011-2015 LEVAI Daniel
 # All rights reserved.
 #
-# * Redistribution and use in source and binary forms, with or without
-#   modification, are permitted provided that the following conditions
-#   are met:
-# * Redistributions of source code must retain the above copyright notice
-#   this list of conditions and the following disclaimer.
-# * Redistributions in binary form must reproduce the above copyright
-#   notice, this list of conditions and the following disclaimer in the
-#   documentation and/or other materials provided with the distribution.
+# Redistribution and use of this script, with or without modification, is
+# permitted provided that the following conditions are met:
 #
-# THIS SOFTWARE IS PROVIDED ''AS IS'' AND ANY EXPRESS OR IMPLIED WARRANTIES,
-# INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY
-# AND FITNESS FOR A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE
-# COPYRIGHT HOLDER BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL,
-# EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO,
-# PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS;
-# OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY,
-# WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR
-# OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF
-# ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+# 1. Redistributions of this script must retain the above copyright
+#    notice, this list of conditions and the following disclaimer.
+#
+#  THIS SOFTWARE IS PROVIDED BY THE AUTHOR "AS IS" AND ANY EXPRESS OR IMPLIED
+#  WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES OF
+#  MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE DISCLAIMED.  IN NO
+#  EVENT SHALL THE AUTHOR BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL,
+#  SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO,
+#  PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS;
+#  OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY,
+#  WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR
+#  OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF
+#  ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 PRGNAM=spectrwm
 VERSION=${VERSION:-3.4.0}
@@ -74,41 +71,19 @@ find -L . \
 
 cd linux
 CFLAGS="$SLKCFLAGS" \
-  make \
-    PREFIX=/usr \
-    LIBDIR=/usr/lib${LIBDIRSUFFIX} \
-    MANDIR=/usr/man \
-    SYSCONFDIR=/etc \
-    DATAROOTDIR=/usr/share \
-    MANDIR=/usr/man \
-    DOCDIR=/usr/share/doc/spectrwm-${VERSION} \
-    XSESSIONSDIR=/usr/share/applications \
-    PKG_CONFIG=pkg-config
+  make
   make install \
     PREFIX=/usr \
     LIBDIR=/usr/lib${LIBDIRSUFFIX} \
     MANDIR=/usr/man \
     SYSCONFDIR=/etc \
-    DATAROOTDIR=/usr/share \
+    DATAROOTDIR=/usr \
     MANDIR=/usr/man \
-    DOCDIR=/usr/share/doc/spectrwm-${VERSION} \
+    DOCDIR=/usr/doc/spectrwm-${VERSION} \
     XSESSIONSDIR=/usr/share/applications \
+    PKG_CONFIG=pkg-config \
     DESTDIR=$PKG
 cd ..
-
-
-
-# cd linux
-#   CFLAGS="$SLKCFLAGS" make \
-#     PREFIX=/usr \
-#     LIBDIR=/usr/lib${LIBDIRSUFFIX} \
-#     MANDIR=/usr/man
-#   make install \
-#     PREFIX=/usr \
-#     LIBDIR=/usr/lib${LIBDIRSUFFIX} \
-#     MANDIR=/usr/man \
-#     DESTDIR=$PKG
-# cd ..
 
 find $PKG -print0 | xargs -0 file | grep -e "executable" -e "shared object" | grep ELF \
   | cut -f 1 -d : | xargs strip --strip-unneeded 2> /dev/null || true
@@ -120,20 +95,9 @@ rm -f $PKG/usr/bin/scrotwm
 find $PKG/usr/man -type f -exec gzip -9 {} \;
 for i in $( find $PKG/usr/man -type l ) ; do ln -s $( readlink $i ).gz $i.gz ; rm $i ; done
 
-# mkdir -p $PKG/usr/doc/$PRGNAM-$VERSION/examples/keybindings
-# install -m0644 -oroot -groot initscreen.sh $CWD/examples/* \
-#     $PKG/usr/doc/$PRGNAM-$VERSION/examples/
-# cp -a spectrwm.conf $PKG/usr/doc/$PRGNAM-$VERSION/examples/spectrwm_orig.conf
-# cp -a spectrwm_*.conf $PKG/usr/doc/$PRGNAM-$VERSION/examples/keybindings/
-# cat $CWD/$PRGNAM.SlackBuild > $PKG/usr/doc/$PRGNAM-$VERSION/$PRGNAM.SlackBuild
-# find $PKG/usr/doc -type f -exec chmod 0644 {} \;
-
-mkdir -p $PKG/usr/doc/$PRGNAM-$VERSION/examples
+# This puts an extra copy of the default config with the other example files
 cp -a \
-   CHANGELOG.md LICENSE.md README.md \
-   $PKG/usr/doc/$PRGNAM-$VERSION
-cp -a \
-   baraction.sh spectrwm_*.conf initscreen.sh screenshot.sh \
+   spectrwm.conf \
    $PKG/usr/doc/$PRGNAM-$VERSION/examples
 cat $CWD/$PRGNAM.SlackBuild > $PKG/usr/doc/$PRGNAM-$VERSION/$PRGNAM.SlackBuild
 
@@ -147,9 +111,8 @@ mkdir -p $PKG/etc/X11/xinit
 cat $CWD/xinitrc.$PRGNAM > $PKG/etc/X11/xinit/xinitrc.$PRGNAM
 chmod 0755 $PKG/etc/X11/xinit/xinitrc.$PRGNAM
 
-# desktop integration
-mkdir -m755 -p "${PKG}/usr/share/applications/"
-cp -a linux/spectrwm.desktop "${PKG}/usr/share/applications/"
+# desktop file now handled by Makefile
+# cp -a linux/spectrwm.desktop $PKG/usr/share/applications/
 
 cd $PKG
 /sbin/makepkg -l y -c n $OUTPUT/$PRGNAM-$VERSION-$ARCH-$BUILD$TAG.${PKGTYPE:-tgz}
