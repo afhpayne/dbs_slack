@@ -63,7 +63,7 @@ rm -rf $PKG
 mkdir -p $TMP $PKG $OUTPUT
 cd $TMP
 rm -rf $PRGNAM-$SRCNAM
-tar xvf $CWD/$PRGNAM-$SRCNAM.tar.gz # || tar xvf $CWD/$SRCNAM.tar.gz
+tar xvf $CWD/$PRGNAM-$SRCNAM.tar.gz || tar xvf $CWD/$SRCNAM.tar.gz
 cd $PRGNAM-$SRCNAM
 chown -R root:root .
 find -L . \
@@ -73,16 +73,30 @@ find -L . \
   -o -perm 440 -o -perm 400 \) -exec chmod 644 {} \;
 
 cd linux
-  CFLAGS="$SLKCFLAGS" make \
+CFLAGS="$SLKCFLAGS" \
+  make \
     PREFIX=/usr \
     LIBDIR=/usr/lib${LIBDIRSUFFIX} \
-    MANDIR=/usr/man
+    MANDIR=/usr/man \
+    SYSCONFDIR=/etc \
+    DATAROOTDIR=/usr/share \
+    MANDIR=/usr/man \
+    DOCDIR=/usr/share/doc/spectrwm-${VERSION} \
+    XSESSIONSDIR=/usr/share/applications \
+    PKG_CONFIG=pkg-config
   make install \
     PREFIX=/usr \
     LIBDIR=/usr/lib${LIBDIRSUFFIX} \
     MANDIR=/usr/man \
+    SYSCONFDIR=/etc \
+    DATAROOTDIR=/usr/share \
+    MANDIR=/usr/man \
+    DOCDIR=/usr/share/doc/spectrwm-${VERSION} \
+    XSESSIONSDIR=/usr/share/applications \
     DESTDIR=$PKG
 cd ..
+
+
 
 # cd linux
 #   CFLAGS="$SLKCFLAGS" make \
@@ -114,10 +128,13 @@ for i in $( find $PKG/usr/man -type l ) ; do ln -s $( readlink $i ).gz $i.gz ; r
 # cat $CWD/$PRGNAM.SlackBuild > $PKG/usr/doc/$PRGNAM-$VERSION/$PRGNAM.SlackBuild
 # find $PKG/usr/doc -type f -exec chmod 0644 {} \;
 
-mkdir -p $PKG/usr/doc/$PRGNAM-$VERSION
+mkdir -p $PKG/usr/doc/$PRGNAM-$VERSION/examples
 cp -a \
-  CHANGELOG.md LICENSE.md README.md baraction.sh spectrwm_*.conf spectrwm.conf \
-  $PKG/usr/doc/$PRGNAM-$VERSION
+   CHANGELOG.md LICENSE.md README.md \
+   $PKG/usr/doc/$PRGNAM-$VERSION
+cp -a \
+   baraction.sh spectrwm_*.conf initscreen.sh screenshot.sh \
+   $PKG/usr/doc/$PRGNAM-$VERSION/examples
 cat $CWD/$PRGNAM.SlackBuild > $PKG/usr/doc/$PRGNAM-$VERSION/$PRGNAM.SlackBuild
 
 # Copy the slack-desc (and a custom doinst.sh if necessary) into ./install
