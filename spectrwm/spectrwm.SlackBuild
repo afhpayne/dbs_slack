@@ -22,8 +22,8 @@
 #  ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 PRGNAM=spectrwm
-VERSION=${VERSION:-3.4.0}
-SRCNAM=SPECTRWM_3_4_0
+VERSION=${VERSION:-3.4.1}
+SRCNAM=SPECTRWM_3_4_1
 BUILD=${BUILD:-1}
 TAG=${TAG:-_SBo}
 
@@ -71,19 +71,38 @@ find -L . \
 
 cd linux
 CFLAGS="$SLKCFLAGS" \
-  make
-  make install \
+  make \
     PREFIX=/usr \
     LIBDIR=/usr/lib${LIBDIRSUFFIX} \
     MANDIR=/usr/man \
-    SYSCONFDIR=/etc \
-    DATAROOTDIR=/usr \
+    DOCDIR=/usr/doc/spectrwm-${VERSION}
+    XSESSIONSDIR=/usr/share/applications \
+    PKG_CONFIG=pkg-config \
+  make install \
+    PREFIX=/usr \
+    LIBDIR=/usr/lib${LIBDIRSUFFIX} \
     MANDIR=/usr/man \
     DOCDIR=/usr/doc/spectrwm-${VERSION} \
     XSESSIONSDIR=/usr/share/applications \
     PKG_CONFIG=pkg-config \
     DESTDIR=$PKG
 cd ..
+
+# cd linux
+# CFLAGS="$SLKCFLAGS" \
+#   make
+#   make install \
+#     PREFIX=/usr \
+#     LIBDIR=/usr/lib${LIBDIRSUFFIX} \
+#     MANDIR=/usr/man \
+#     SYSCONFDIR=/etc \
+#     DATAROOTDIR=/usr \
+#     MANDIR=/usr/man \
+#     DOCDIR=/usr/doc/spectrwm-${VERSION} \
+#     XSESSIONSDIR=/usr/share/applications \
+#     PKG_CONFIG=pkg-config \
+#     DESTDIR=$PKG
+# cd ..
 
 find $PKG -print0 | xargs -0 file | grep -e "executable" -e "shared object" | grep ELF \
   | cut -f 1 -d : | xargs strip --strip-unneeded 2> /dev/null || true
