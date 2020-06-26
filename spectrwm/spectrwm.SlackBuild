@@ -23,7 +23,7 @@
 
 PRGNAM=spectrwm
 VERSION=${VERSION:-3.4.1}
-SRCNAM=SPECTRWM_3_4_1
+SRCNAM=SPECTRWM_${VERSION//./_}
 BUILD=${BUILD:-1}
 TAG=${TAG:-_SBo}
 
@@ -102,7 +102,7 @@ rm -f $PKG/usr/bin/scrotwm
 find $PKG/usr/man -type f -exec gzip -9 {} \;
 for i in $( find $PKG/usr/man -type l ) ; do ln -s $( readlink $i ).gz $i.gz ; rm $i ; done
 
-# This puts an extra copy of the default config with the other example files
+# Put an extra copy of the default config with the other example files
 cp -a \
    spectrwm.conf \
    $PKG/usr/doc/$PRGNAM-$VERSION/examples
