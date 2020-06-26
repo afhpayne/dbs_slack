@@ -73,21 +73,21 @@ cd linux
 CFLAGS="$SLKCFLAGS" \
   make \
     PREFIX=/usr \
-    LIBDIR=/${PREFIX}/lib${LIBDIRSUFFIX} \
-    MANDIR=/${PREFIX}/man \
-    DOCDIR=/${PREFIX}/doc/spectrwm-${VERSION}
+    LIBDIR=/usr/lib${LIBDIRSUFFIX} \
+    MANDIR=/usr/man \
+    DOCDIR=/usr/doc/spectrwm-${VERSION}
     SYSCONFDIR=/etc \
-    DATAROOTDIR=/${PREFIX} \
-    XSESSIONSDIR=/${PREFIX}/share/applications \
+    DATAROOTDIR=/usr \
+    XSESSIONSDIR=/usr/share/applications \
     PKG_CONFIG=pkg-config \
   make install \
     PREFIX=/usr \
-    LIBDIR=/${PREFIX}/lib${LIBDIRSUFFIX} \
-    MANDIR=/${PREFIX}/man \
-    DOCDIR=/${PREFIX}/doc/spectrwm-${VERSION} \
+    LIBDIR=/usr/lib${LIBDIRSUFFIX} \
+    MANDIR=/usr/man \
+    DOCDIR=/usr/doc/spectrwm-${VERSION} \
     SYSCONFDIR=/etc \
-    DATAROOTDIR=/${PREFIX} \
-    XSESSIONSDIR=/${PREFIX}/share/applications \
+    DATAROOTDIR=/usr \
+    XSESSIONSDIR=/usr/share/applications \
     PKG_CONFIG=pkg-config \
     DESTDIR=$PKG
 cd ..
