@@ -12,6 +12,7 @@ config() {
 }
 
 config etc/X11/xinit/xinitrc.spectrwm.new
+config etc/spectrwm.conf.new
 
 if [ -x /usr/bin/update-desktop-database ]; then
   /usr/bin/update-desktop-database -q usr/share/applications >/dev/null 2>&1
