@@ -6,3 +6,6 @@ serd sord lv2 ladspa_sdk sratom vamp-plugin-sdk
 
 To-do
 soundtouch
+
+Removed
+ gtk-engines  libwebsockets
