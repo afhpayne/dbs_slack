@@ -1,6 +1,6 @@
 #!/bin/sh
 
-# Slackware build script for <appname>
+# Slackware build script for DrumGizmo
 
 # Copyright 2020 Andrew Payne
 # All rights reserved.
@@ -22,8 +22,8 @@
 #  OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF
 #  ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
-PRGNAM=drumgizmo			# replace with name of program
-VERSION=${VERSION:-git}	# replace with version of program
+PRGNAM=drumgizmo		# replace with name of program
+VERSION=${VERSION:-0.9.18.1}    # replace with version of program
 BUILD=${BUILD:-1}
 TAG=${TAG:-_DBs}		# the "_SBo" is required
 
@@ -74,11 +74,11 @@ find -L . \
  \( -perm 666 -o -perm 664 -o -perm 640 -o -perm 600 -o -perm 444 \
   -o -perm 440 -o -perm 400 \) -exec chmod 644 {} \;
 
-# Your application will probably need different configure flags;
-# these are provided as an example only.
-# Be sure to build only shared libraries unless there's some need for
-# static.
-./autogen.sh
+for i in $(ls $CWD/patches); do
+ patch -d $TMP/$PRGNAM-$VERSION/plugin/plugingizmo < $CWD/patches/$i
+done
+
+# ./autogen.sh
 
 CFLAGS="$SLKCFLAGS" \
 CXXFLAGS="$SLKCFLAGS" \
@@ -90,7 +90,7 @@ CXXFLAGS="$SLKCFLAGS" \
   --mandir=/usr/man \
   --docdir=/usr/doc/$PRGNAM-$VERSION \
   --disable-static \
-  --with-lv2dir=$HOME/.lv2 \
+  --with-lv2dir=/usr/lib${LIBDIRSUFFIX}/lv2 \
   --enable-lv2 \
   --disable-cli \
   --build=$ARCH-slackware-linux
@@ -113,27 +113,10 @@ find $PKG/usr/man -type f -exec gzip -9 {} \;
 for i in $( find $PKG/usr/man -type l ) ; do ln -s $( readlink $i ).gz $i.gz ; rm $i ; done
 
 # Compress info pages and remove the package's dir file
-# If no info pages are installed by the software, don't leave this in the script
 rm -f $PKG/usr/info/dir
-gzip -9 $PKG/usr/info/*.info*
-
-# Remove perllocal.pod and other special files that don't need to be installed,
-# as they will overwrite what's already on the system.  If this is not needed,
-# remove it from the script.
-# Remove 'special' files
-# find $PKG -name perllocal.pod \
-#   -o -name ".packlist" \
-#   -o -name "*.bs" \
-#   | xargs rm -f
 
 # Copy program documentation into the package
-# The included documentation varies from one application to another, so be sure
-# to adjust your script as needed
-# Also, include the SlackBuild script in the documentation directory
 mkdir -p $PKG/usr/doc/$PRGNAM-$VERSION
-cp -a \
-  <documentation> \
-  $PKG/usr/doc/$PRGNAM-$VERSION
 cat $CWD/$PRGNAM.SlackBuild > $PKG/usr/doc/$PRGNAM-$VERSION/$PRGNAM.SlackBuild
 
 # Copy the slack-desc (and a custom doinst.sh if necessary) into ./install
