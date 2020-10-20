@@ -6,14 +6,14 @@
 # customary to leave one space after the ':' except on otherwise blank lines.
 
          |-----handy-ruler------------------------------------------------------|
-drumgizmo: DrumGizmo ()
+drumgizmo: DrumGizmo (LV2 drum plugin)
 drumgizmo:
 drumgizmo: DrumGizmo is an open source, multichannel, multilayered, 
 drumgizmo: cross-platform drum plugin and stand-alone application. It enables
 drumgizmo: you to compose drums in midi and mix them with a multichannel
 drumgizmo: approach. It is comparable to that of mixing a real drumkit that has
-drumgizmo: been recorded with a multimic setup. Ardour is a professional digital
-drumgizmo: workstation for working with audio.
+drumgizmo: been recorded with a multimic setup.
 drumgizmo:
 drumgizmo: Homepage: https://drumgizmo.org
+drumgizmo:
 drumgizmo:

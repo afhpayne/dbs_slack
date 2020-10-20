@@ -1,4 +1,3 @@
----------------------------------------------------------------------|
 DrumGizmo is an open source, multichannel, multilayered,
 cross-platform drum plugin and stand-alone application. It enables
 you to compose drums in midi and mix them with a multichannel
@@ -26,3 +25,14 @@ Features include:
 
 - Stand-alone midi input, making it possible to use DrumGizmo as a
   software sampler for an electronic drumkit
+
+Notes:
+
+- This slackbuild makes the LV2 plugin, and is tested in Ardour
+
+- The drum kits (samples) are not included for size, and can be
+downloaded from https://drumgizmo.org
+
+- Two patches are applied during installation to fix a build error
+
+- Core i7 build time is about 5 minutes
