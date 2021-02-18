@@ -2,7 +2,7 @@
 
 # Slackware build script for <appname>
 
-# Copyright <year> <you> <where you live>
+# Copyright 2021 Andrew Payne <phalange@komputermatrix.com>
 # All rights reserved.
 #
 # Redistribution and use of this script, with or without modification, is
@@ -22,32 +22,6 @@
 #  OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF
 #  ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
-# |-----------------------------------------------------------------| #
-# REMOVE THIS ENTIRE BLOCK OF TEXT #
-#
-# A license is required, and we strongly suggest you use the above
-# BSD/MIT style license. We DO NOT accept "Public Domain" scripts.
-# Public domain is not valid in some countries, and no license is
-# worse than a "bad" license in those countries.
-#
-# This template is not meant to be a 'cut and paste' script to
-# enable any random user to make a working package.  While
-# we're certainly not discouraging use of this template, if
-# you haven't manually gone through each step of the process
-# without the build script (typically as a normal user, as this
-# will reveal problems that you won't see as root), then there's
-# a good chance that something important is missing from your
-# submission.
-
-# When using this template script, please remove as many of
-# these unnecessary comments as possible.  Commented code is
-# a good thing, but if it's obvious, there's no need to comment it.
-#
-# AGAIN, REMOVE THE COMMENTS IF THEY ARE NOT NEEDED - DON'T JUST
-# DELETE THIS BLOCK OF TEXT WITHOUT BOTHERING TO READ WHAT'S IN IT.
-#
-# |-----------------------------------------------------------------| #
-
 SRCNAM=mozilla-vpn-client
 PRGNAM=mozillavpn			# replace with name of program
 VERSION=${VERSION:-2.0.3}	# replace with version of program
@@ -65,7 +39,7 @@ if [ -z "$ARCH" ]; then
 fi
 
 CWD=$(pwd)
-TMP=${TMP:-/tmp/SBo}		# For consistency's sake, use this
+TMP=${TMP:-/tmp/DBs}		# For consistency's sake, use this
 PKG=$TMP/package-$PRGNAM
 OUTPUT=${OUTPUT:-/tmp}		# Drop the package in /tmp
 
@@ -102,7 +76,6 @@ find -L . \
 
 # Your application will probably need different cmake flags; these are only
 # examples.  You might use 'ccmake' to see the available flags...
-git init
 git submodule init
 git submodule update
 qmake-qt5 CONFIG+=production
@@ -119,16 +92,6 @@ find $PKG -print0 | xargs -0 file | grep -e "executable" -e "shared object" | gr
 # move them manually.
 # find $PKG/usr/man -type f -exec gzip -9 {} \;
 # for i in $( find $PKG/usr/man -type l ) ; do ln -s $( readlink $i ).gz $i.gz ; rm $i ; done
-
-# Compress info pages and remove the package's dir file
-# If no info pages are installed by the software, don't leave this in the script
-# rm -f $PKG/usr/info/dir
-# gzip -9 $PKG/usr/info/*.info*
-
-# Remove perllocal.pod and other special files that don't need to be installed,
-# as they will overwrite what's already on the system.  If this is not needed,
-# remove it from the script.
-# find $PKG -name perllocal.pod -o -name ".packlist" -o -name "*.bs" | xargs rm -f || true
 
 # Copy program documentation into the package
 # The included documentation varies from one application to another, so be sure
