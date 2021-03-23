@@ -1,9 +1,9 @@
 #!/bin/sh
 
-# Slackware build script for flatpak
+# Slackware build script for appstream-glib
 
-# Copyright 2020-2021 Andrew Payne <phalange@komputermatrix.com>
-# Copyright 2017, 2018, 2019 Vincent Batts <vbatts@hashbangbash.com>
+# Copyright 2021 Andrew Payne <phalange@komputermatrix.com>
+# Copyright 2017-2019 Andrew Clemons, Wellington New Zealand
 # All rights reserved.
 #
 # Redistribution and use of this script, with or without modification, is
@@ -23,8 +23,9 @@
 #  OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF
 #  ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
-PRGNAM=flatpak
-VERSION=${VERSION:-1.10.2}
+PRGNAM=appstream-glib
+VERSION=${VERSION:-0.7.18}
+SRCVERSION=$(echo "$PRGNAM" | tr - _)_$(echo "$VERSION" | tr . _)
 BUILD=${BUILD:-1}
 TAG=${TAG:-_DBs}
 
@@ -60,9 +61,9 @@ set -e
 rm -rf $PKG
 mkdir -p $TMP $PKG $OUTPUT
 cd $TMP
-rm -rf $PRGNAM-$VERSION
-tar xvf $CWD/$PRGNAM-$VERSION.tar.xz
-cd $PRGNAM-$VERSION
+rm -rf $PRGNAM-$SRCVERSION
+tar xvf $CWD/$PRGNAM-$SRCVERSION.tar.gz
+cd $PRGNAM-$SRCVERSION
 chown -R root:root .
 find -L . \
  \( -perm 777 -o -perm 775 -o -perm 750 -o -perm 711 -o -perm 555 \
@@ -72,20 +73,20 @@ find -L . \
 
 CFLAGS="$SLKCFLAGS" \
 CXXFLAGS="$SLKCFLAGS" \
-./configure \
+meson \
   --prefix=/usr \
   --libdir=/usr/lib${LIBDIRSUFFIX} \
   --sysconfdir=/etc \
-  --localstatedir=/var \
   --mandir=/usr/man \
-  --docdir=/usr/doc/$PRGNAM-$VERSION \
-  --build=$ARCH-slackware-linux \
-  --with-system-bubblewrap
+  -Dgtk-doc=true \
+  -Dstemmer=false \
+  build
 
-make
-make install DESTDIR=$PKG
+# not sure why this is necessary
+sed -i "/^ COMMAND = \\/usr\\/bin\\/g-ir-scanner/s/-lyaml//" build/build.ninja
 
-chmod +x $PKG/etc/profile.d/flatpak.sh
+ninja -C build
+DESTDIR=$PKG ninja -C build install
 
 find $PKG -print0 | xargs -0 file | grep -e "executable" -e "shared object" | grep ELF \
   | cut -f 1 -d : | xargs strip --strip-unneeded 2> /dev/null || true
@@ -95,14 +96,12 @@ for i in $( find $PKG/usr/man -type l ) ; do ln -s $( readlink $i ).gz $i.gz ; r
 
 mkdir -p $PKG/usr/doc/$PRGNAM-$VERSION
 cp -a \
-  README.md COPYING INSTALL NEWS ABOUT-NLS \
+  AUTHORS COPYING MAINTAINERS NEWS README.md RELEASE \
   $PKG/usr/doc/$PRGNAM-$VERSION
-cat $CWD/README >  $PKG/usr/doc/$PRGNAM-$VERSION/README.SBo
 cat $CWD/$PRGNAM.SlackBuild > $PKG/usr/doc/$PRGNAM-$VERSION/$PRGNAM.SlackBuild
 
 mkdir -p $PKG/install
 cat $CWD/slack-desc > $PKG/install/slack-desc
-cat $CWD/doinst.sh > $PKG/install/doinst.sh
 
 cd $PKG
 /sbin/makepkg -l y -c n $OUTPUT/$PRGNAM-$VERSION-$ARCH-$BUILD$TAG.${PKGTYPE:-tgz}
