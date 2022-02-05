@@ -76,7 +76,15 @@ rm -rf $PKG
 mkdir -p $TMP $PKG $OUTPUT
 cd $TMP
 rm -rf $PRGNAM-$VERSION
-tar xvf $CWD/v$VERSION.tar.gz
+
+# some scripts pull down the tarball with a truncated name
+if [ -f $CWD/v$VERSION.tar.gz ]
+then
+    tar xvf $CWD/v$VERSION.tar.gz
+else
+    tar xvf $CWD/$SRCNAM-$VERSION.tar.gz
+fi
+
 mv $SRCNAM-$VERSION $PRGNAM-$VERSION
 cd $PRGNAM-$VERSION
 chown -R root:root .
