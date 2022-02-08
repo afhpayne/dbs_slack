@@ -1,20 +1,33 @@
 #!/bin/sh
+# $XConsortium: xinitrc.cpp,v 1.4 91/08/22 11:41:34 rws Exp $
 
 userresources=$HOME/.Xresources
 usermodmap=$HOME/.Xmodmap
 sysresources=/etc/X11/xinit/.Xresources
 sysmodmap=/etc/X11/xinit/.Xmodmap
 
-# Merge in defaults and keymaps
-[ -f $sysresources ] && /usr/bin/xrdb -merge $sysresources
-[ -f $sysmodmap ] && /usr/bin/xmodmap $sysmodmap
-[ -f $userresources ] && /usr/bin/xrdb -merge $userresources
-[ -f $usermodmap ] && /usr/bin/xmodmap $usermodmap
+# merge in defaults and keymaps
 
-# Start i3
+if [ -f $sysresources ]; then
+  xrdb -merge $sysresources
+fi
+
+if [ -f $sysmodmap ]; then
+  xmodmap $sysmodmap
+fi
+
+if [ -f $userresources ]; then
+  xrdb -merge $userresources
+fi
+
+if [ -f $usermodmap ]; then
+  xmodmap $usermodmap
+fi
+
+# Start the window manager:
 if [ -z "$DESKTOP_SESSION" -a -x /usr/bin/ck-launch-session ]; then
-    exec ck-launch-session dbus-launch --exit-with-session /usr/bin/i3
+  ck-launch-session dbus-launch --sh-syntax --exit-with-session /usr/bin/i3
 else
-    exec /usr/bin/i3
+  dbus-launch --sh-syntax --exit-with-session /usr/bin/i3
 fi
 
