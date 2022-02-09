@@ -78,12 +78,7 @@ cd $TMP
 rm -rf $PRGNAM-$VERSION
 
 # some scripts pull down the tarball with a truncated name
-if [ -f $CWD/v$VERSION.tar.gz ]
-then
-    tar xvf $CWD/v$VERSION.tar.gz
-else
-    tar xvf $CWD/$SRCNAM-$VERSION.tar.gz
-fi
+tar xvf $CWD/v$VERSION.tar.gz || tar xvf $CWD/$SRCNAM-$VERSION.tar.gz
 
 mv $SRCNAM-$VERSION $PRGNAM-$VERSION
 cd $PRGNAM-$VERSION
@@ -94,18 +89,15 @@ find -L . \
  \( -perm 666 -o -perm 664 -o -perm 640 -o -perm 600 -o -perm 444 \
  -o -perm 440 -o -perm 400 \) -exec chmod 644 {} \;
 
-# mkdir -p build
-# cd build
-  cmake \
-    -DCMAKE_C_FLAGS:STRING="$SLKCFLAGS" \
-    -DCMAKE_CXX_FLAGS:STRING="$SLKCFLAGS" \
-    -DCMAKE_INSTALL_PREFIX=/usr \
-    -DLIB_SUFFIX=${LIBDIRSUFFIX} \
-    -DMAN_INSTALL_DIR=/usr/man \
-    -DCMAKE_BUILD_TYPE=Release
-  make
-  make install DESTDIR=$PKG
-# cd ..
+cmake \
+  -DCMAKE_C_FLAGS:STRING="$SLKCFLAGS" \
+  -DCMAKE_CXX_FLAGS:STRING="$SLKCFLAGS" \
+  -DCMAKE_INSTALL_PREFIX=/usr \
+  -DLIB_SUFFIX=${LIBDIRSUFFIX} \
+  -DMAN_INSTALL_DIR=/usr/man \
+  -DCMAKE_BUILD_TYPE=Release
+make
+make install DESTDIR=$PKG
 
 mkdir -p $PKG/usr/doc/$PRGNAM-$VERSION
 cp -a {CONTRIBUTING.md,COPYING,COPYING.documentation,README.md} \
