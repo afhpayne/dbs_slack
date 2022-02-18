@@ -75,15 +75,7 @@ rm -rf $PKG
 mkdir -p $TMP $PKG $OUTPUT
 cd $TMP
 rm -rf $PRGNAM-$VERSION
-
-# some scripts pull down the tarball with a truncated name
-if [ -f $CWD/$VERSION.tar.gz ]
-then
-    tar xvf $CWD/$VERSION.tar.gz
-else
-    tar xvf $CWD/$PRGNAM-$VERSION.tar.gz
-fi
-
+tar xvf $CWD/$VERSION.tar.gz || tar xvf $CWD/$PRGNAM-$VERSION.tar.gz
 cd $PRGNAM-$VERSION
 chown -R root:root .
 find -L . \
@@ -125,6 +117,7 @@ mkdir -p $PKG/usr/share/man/man1
 cp -a $TMP/$PRGNAM-$VERSION/man/i3* $PKG/usr/share/man/man1/
 
 # don't overwrite the default config
+mkdir -p $PKG/etc/i3
 if [[ -f /etc/i3/config ]]; then
     mv $PKG/etc/i3/config $PKG/etc/i3/config.new
 else
@@ -143,9 +136,9 @@ fi
 # install xinitrc
 mkdir -p $PKG/etc/X11/xinit
 if [[ -f /etc/X11/xinit/xinitrc.i3 ]]; then
-    cat $CWD/xinitrc.i3 > $PKG/etc/X11/xinit/xinitrc.i3.new
+    cp -a $CWD/xinitrc.i3 $PKG/etc/X11/xinit/xinitrc.i3.new
 else
-    cat $CWD/xinitrc.i3 > $PKG/etc/X11/xinit/xinitrc.i3
+    cp -a $CWD/xinitrc.i3 $PKG/etc/X11/xinit/xinitrc.i3
 fi
 chmod 0755 $PKG/etc/X11/xinit/xinitrc.i3*
 
