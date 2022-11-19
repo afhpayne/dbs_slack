@@ -1,0 +1,12 @@
+PRGNAM="joplin"
+VERSION="2.8.8"
+HOMEPAGE="https://joplinapp.org"
+DOWNLOAD="UNSUPPORTED"
+MD5SUM=""
+DOWNLOAD_x86_64="https://github.com/laurent22/joplin/releases/download/v2.8.8/Joplin-2.8.8.AppImage \
+                 https://github.com/laurent22/joplin/archive/refs/tags/v2.8.8/joplin-2.8.8.tar.gz"
+MD5SUM_x86_64="c5018e516700edfbbde830b3d5e14445 \
+               40c9794be15be6e2ed268c6254347c23"
+REQUIRES=""
+MAINTAINER="Andrew Payne"
+EMAIL="phalange@komputermatrix.com"
