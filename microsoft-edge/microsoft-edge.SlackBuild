@@ -27,7 +27,7 @@ cd $(dirname $0) ; CWD=$(pwd)
 
 PRGNAM=microsoft-edge
 BRANCH=stable
-VERSION=${VERSION:-108.0.1462.46}
+VERSION=${VERSION:-111.0.1661.54}
 BUILD=${BUILD:-1}
 TAG=${TAG:-_DBs}
 PKGTYPE=${PKGTYPE:-tgz}
