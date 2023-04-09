@@ -1,9 +1,8 @@
 #!/bin/bash
-#
-# Slackware build script for microsoft-edge.
-#
-# Copyright 2022 Andrew Payne <phalange@komputermatrix.com>
-# Copyright 2021  Reza Talebi, Shahin Shahr, Iran.
+
+# Slackware build script for brave-browser
+
+# Copyright 2023 Andrew Payne <phalange@komputermatrix.com>
 # All rights reserved.
 #
 # Redistribution and use of this script, with or without modification, is
@@ -25,9 +24,9 @@
 
 cd $(dirname $0) ; CWD=$(pwd)
 
-PRGNAM=microsoft-edge
-BRANCH=stable
-VERSION=${VERSION:-112.0.1722.34}
+PRGNAM=rstudio
+# SRCNAM=rstudio
+VERSION=${VERSION:-2022.12.0-353}
 BUILD=${BUILD:-1}
 TAG=${TAG:-_DBs}
 PKGTYPE=${PKGTYPE:-tgz}
@@ -36,7 +35,7 @@ if [ -z "$ARCH" ]; then
   case "$( uname -m )" in
     i?86) ARCH=i586 ;;
     arm*) ARCH=arm ;;
-       *) ARCH=$( uname -m ) ;;
+    *) ARCH=$( uname -m ) ;;
   esac
 fi
 
@@ -44,7 +43,7 @@ fi
 # the name of the created package would be, and then exit. This information
 # could be useful to other scripts.
 if [ ! -z "${PRINT_PACKAGE_NAME}" ]; then
-  echo "$PRGNAM-$BRANCH_$VERSION_$ARCH-$BUILD$TAG.$PKGTYPE"
+  echo "$PRGNAM-$VERSION-$ARCH-$BUILD$TAG.$PKGTYPE"
   exit 0
 fi
 
@@ -52,9 +51,8 @@ TMP=${TMP:-/tmp/DBs}
 PKG=$TMP/package-$PRGNAM
 OUTPUT=${OUTPUT:-/tmp}
 
-if [ "$ARCH" = "x86_64" ]; then
-  BIT="amd64"
-else
+# Abort build if architecture is not 64-bit.
+if [ "$ARCH" != "x86_64" ]; then
   echo "$ARCH is not supported."
   exit 1
 fi
@@ -64,43 +62,32 @@ set -e
 rm -rf $PKG
 mkdir -p $TMP $PKG $OUTPUT
 cd $TMP
-rm -rf $PRGNAM-${VERSION}
-mkdir -p $PRGNAM-${VERSION}
-ar x $CWD/$PRGNAM-$BRANCH"_"${VERSION}-${BUILD}_${BIT}.deb --output $PRGNAM-$VERSION
+rm -rf $PRGNAM-$VERSION
+mkdir -p $PRGNAM-$VERSION
 cd $PRGNAM-$VERSION
-
-rm {control.tar.xz,debian-binary,_gpgorigin}
-
+ar x $CWD/$PRGNAM-$VERSION-amd64.deb
+rm debian-binary
+rm control.tar.xz
 xz -d data.tar.xz
-tar --extract -f data.tar
-
-# remove what won't work
-rm -rf etc
-rm -rf usr/share/gnome-control-center
-rm -rf usr/share/menu
-rm -rf usr/bin
-
+tar -xf data.tar
+rm data.tar
 chown -R root:root .
 find -L . \
- \( -perm 777 -o -perm 775 -o -perm 750 -o -perm 711 -o -perm 555 \
-  -o -perm 511 \) -exec chmod 755 {} \; -o \
- \( -perm 666 -o -perm 664 -o -perm 640 -o -perm 600 -o -perm 444 \
-  -o -perm 440 -o -perm 400 \) -exec chmod 644 {} \;
+\( -perm 777 -o -perm 775 -o -perm 750 -o -perm 711 -o -perm 555 \
+-o -perm 511 \) -exec chmod 755 {} \; -o \
+\( -perm 666 -o -perm 664 -o -perm 640 -o -perm 600 -o -perm 444 \
+-o -perm 440 -o -perm 400 \) -exec chmod 644 {} \;
 
-mkdir -p $PKG/{usr/bin,usr/share,opt}
-  cp -a opt/ $PKG/
-  ln -s /opt/microsoft/msedge/$PRGNAM $PKG/usr/bin/$PRGNAM-$BRANCH
-  cp -a usr/share/man $PKG/usr/
-  cp -a usr/share/{appdata,applications} $PKG/usr/share/
+mkdir -p $PKG/{usr/share,usr/lib}
+cp -a $TMP/$PRGNAM-$VERSION/usr/share $PKG/usr/
+cp -a $TMP/$PRGNAM-$VERSION/usr/lib $PKG/usr/
 
-# move icon into place
-mkdir -p $PKG/usr/share/pixmaps
-cp -a opt/microsoft/msedge/product_logo_32.xpm \
-   $PKG/usr/share/pixmaps/microsoft-edge.xpm
+find $PKG -print0 | xargs -0 file | grep -e "executable" -e "shared object" | grep ELF \
+  | cut -f 1 -d : | xargs strip --strip-unneeded 2> /dev/null || true
 
-mkdir -p $PKG/usr/doc/$PRGNAM-$VERSION/
+mkdir -p $PKG/usr/doc/$PRGNAM-$VERSION
 cat $CWD/$PRGNAM.SlackBuild > $PKG/usr/doc/$PRGNAM-$VERSION/$PRGNAM.SlackBuild
-cp -a usr/share/doc/microsoft-edge-stable/* $PKG/usr/doc/$PRGNAM-$VERSION/
+cp -a $TMP/$PRGNAM-$VERSION/usr/lib/$PRGNAM/LICENSE* $PKG/usr/doc/$PRGNAM-$VERSION/
 
 mkdir -p $PKG/install
 cat $CWD/slack-desc > $PKG/install/slack-desc
