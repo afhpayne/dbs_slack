@@ -2,7 +2,7 @@
 
 # Slackware build script for gnucash
 
-# Copyright 2023 Andrew Payne phalange@komputermatrix.com
+# Copyright 2024 Andrew Payne phalange@komputermatrix.com
 # Copyright 2015  Trayan Denev, tdenev@gmail.com
 # This version Copyright 2018-2022 Lenard Spencer <lenardrspencer@gmail.com>
 # All rights reserved.
@@ -27,7 +27,7 @@
 cd $(dirname $0) ; CWD=$(pwd)
 
 PRGNAM=gnucash
-VERSION=${VERSION:-5.1}
+VERSION=${VERSION:-5.5}
 BUILD=${BUILD:-1}
 TAG=${TAG:-_DBs}
 PKGTYPE=${PKGTYPE:-tgz}
@@ -108,7 +108,7 @@ rm -rf $PKG
 mkdir -p $TMP $PKG $OUTPUT
 cd $TMP
 rm -rf $PRGNAM-$VERSION
-tar xvf $CWD/$VERSION.tar.gz
+tar xvf $CWD/$PRGNAM-$VERSION.tar.bz2
 cd $PRGNAM-$VERSION
 chown -R root:root .
 find -L . \

@@ -5,15 +5,15 @@
 # You must make exactly 11 lines for the formatting to be correct.  It's also
 # customary to leave one space after the ':' except on otherwise blank lines.
 
-       |-----handy-ruler------------------------------------------------------|
-gnucash: gnucash (financial accounting application)
-gnucash:
-gnucash: GnuCash Double-Entry Accounting Program.
-gnucash:
-gnucash: Homepage: http://gnucash.org/
-gnucash:
-gnucash:
-gnucash:
-gnucash:
-gnucash:
-gnucash:
+           |-----handy-ruler------------------------------------------------------|
+proton-mail: proton-mail (email client)
+proton-mail:
+proton-mail: Proton official desktop application for Proton Mail and Proton
+proton-mail: Calendar
+proton-mail:
+proton-mail: Homepage: https://proton.me/mail/download
+proton-mail:
+proton-mail:
+proton-mail:
+proton-mail:
+proton-mail:
