@@ -1,3 +1,3 @@
-# dbs_slackware
+### Slackware current (15.0) development
 
-These repo has independent slackbuilds for Slackware 15.
+These slackbuilds are pre-release candidates for slackbuilds.org.
