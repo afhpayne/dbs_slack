@@ -1,3 +1,3 @@
-# dbs_slackware
+# dbs_slack
 
 These repo has independent slackbuilds for Slackware-current. They will not work on Slackware 15 (the stable release).
