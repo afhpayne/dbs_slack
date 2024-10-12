@@ -2,7 +2,7 @@
 
 # Slackware build script for Joplin.
 
-# Copyright 2022 Andrew Payne <phalange@komputermatrix.com>
+# Copyright 2022-2024 Andrew Payne <phalange@komputermatrix.com>
 #
 # Redistribution and use of this script, with or without modification, is
 # permitted provided that the following conditions are met:
@@ -24,7 +24,7 @@
 cd $(dirname $0) ; CWD=$(pwd)
 
 PRGNAM=joplin
-VERSION=${VERSION:-2.8.8}
+VERSION=${VERSION:-3.0.15}
 BUILD=${BUILD:-1}
 TAG=${TAG:-_DBs}
 PKGTYPE=${PKGTYPE:-tgz}
@@ -71,13 +71,13 @@ find -L . \
   -o -perm 440 -o -perm 400 \) -exec chmod 644 {} \;
 
 mkdir -p $PKG/{usr/bin,opt/$PRGNAM}
-cp -a  $CWD/Joplin-2.8.8.AppImage $PKG/opt/$PRGNAM
-chmod +x $PKG/opt/$PRGNAM/Joplin-2.8.8.AppImage
-ln -s /opt/$PRGNAM/Joplin-2.8.8.AppImage $PKG/usr/bin/$PRGNAM
+cp -a  $CWD/Joplin-$VERSION.AppImage $PKG/opt/$PRGNAM
+chmod +x $PKG/opt/$PRGNAM/Joplin-$VERSION.AppImage
+ln -s /opt/$PRGNAM/Joplin-$VERSION.AppImage $PKG/usr/bin/$PRGNAM
 
 mkdir -p $PKG/usr/doc/$PRGNAM-$VERSION
 cp -a \
-  BUILD.md CONTRIBUTING.md LICENSE README.md SECURITY.md \
+  CONTRIBUTING LICENSE README.md SECURITY.md \
   $PKG/usr/doc/$PRGNAM-$VERSION
 cat $CWD/$PRGNAM.SlackBuild > $PKG/usr/doc/$PRGNAM-$VERSION/$PRGNAM.SlackBuild
 
