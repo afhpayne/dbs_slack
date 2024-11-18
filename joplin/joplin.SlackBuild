@@ -24,6 +24,7 @@
 cd $(dirname $0) ; CWD=$(pwd)
 
 PRGNAM=joplin
+APPNAM=Joplin
 VERSION=${VERSION:-3.1.24}
 BUILD=${BUILD:-1}
 TAG=${TAG:-_DBs}
@@ -71,9 +72,9 @@ find -L . \
   -o -perm 440 -o -perm 400 \) -exec chmod 644 {} \;
 
 mkdir -p $PKG/{usr/bin,opt/$PRGNAM}
-cp -a  $CWD/Joplin-$VERSION.AppImage $PKG/opt/$PRGNAM
-chmod +x $PKG/opt/$PRGNAM/Joplin-$VERSION.AppImage
-ln -s /opt/$PRGNAM/Joplin-$VERSION.AppImage $PKG/usr/bin/$PRGNAM
+cp -a  $CWD/$APPNAM-$VERSION.AppImage $PKG/opt/$PRGNAM
+chmod +x $PKG/opt/$PRGNAM/$APPNAM-$VERSION.AppImage
+ln -s /opt/$PRGNAM/$APPNAM-$VERSION.AppImage $PKG/usr/bin/$PRGNAM
 
 mkdir -p $PKG/usr/doc/$PRGNAM-$VERSION
 cp -a \
