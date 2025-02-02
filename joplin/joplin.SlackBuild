@@ -2,7 +2,7 @@
 
 # Slackware build script for Joplin.
 
-# Copyright 2022-2024 Andrew Payne <phalange@komputermatrix.com>
+# Copyright 2022-2025 Andrew Payne <phalange@komputermatrix.com>
 #
 # Redistribution and use of this script, with or without modification, is
 # permitted provided that the following conditions are met:
@@ -25,7 +25,7 @@ cd $(dirname $0) ; CWD=$(pwd)
 
 PRGNAM=joplin
 APPNAM=Joplin
-VERSION=${VERSION:-3.1.24}
+VERSION=${VERSION:-3.2.12}
 BUILD=${BUILD:-1}
 TAG=${TAG:-_DBs}
 PKGTYPE=${PKGTYPE:-tgz}
@@ -85,10 +85,10 @@ mv $APPNAM-$VERSION.AppImage $PKG/opt
 mkdir -p $PKG/usr/share/applications
 sed -i \
     "/Exec=AppRun --no-sandbox %U/c\Exec=/opt/$APPNAM-$VERSION.AppImage %f" \
-    @joplinapp-desktop.desktop
+    joplin.desktop
 
 cp -a \
-   @joplinapp-desktop.desktop \
+   joplin.desktop \
    $PKG/usr/share/applications/$PRGNAM.desktop
 
 mkdir -p $PKG/usr/doc/$PRGNAM-$VERSION
