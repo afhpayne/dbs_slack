@@ -26,8 +26,8 @@ cd $(dirname $0) ; CWD=$(pwd)
 
 PRGNAM=rstudio
 PRCNAM=amd64
-VERSION=${VERSION:-2024.12.0-467}
-BUILD=${BUILD:-1}
+VERSION=${VERSION:-2024.12.0}
+BUILD=${BUILD:-467}
 TAG=${TAG:-_DBs}
 PKGTYPE=${PKGTYPE:-tgz}
 
@@ -73,7 +73,7 @@ mkdir -p $TMP $PKG $OUTPUT
 cd $TMP
 rm -rf $PRGNAM-$VERSION
 
-ar x $CWD/$PRGNAM-$VERSION-$PRCNAM.deb data.tar.xz
+ar x $CWD/$PRGNAM-$VERSION-$BUILD-$PRCNAM.deb data.tar.xz
 mkdir -p $PRGNAM-$VERSION
 tar -xvf data.tar.xz -C $PRGNAM-$VERSION/
 rm data.tar.xz
