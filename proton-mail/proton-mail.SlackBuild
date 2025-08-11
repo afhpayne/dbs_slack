@@ -27,7 +27,7 @@ cd $(dirname $0) ; CWD=$(pwd)
 PRGNAM=proton-mail
 SRCNAM=ProtonMail
 DEBNAM=desktop-beta
-VERSION=${VERSION:-1.8.0}
+VERSION=${VERSION:-1.9.0}
 BUILD=${BUILD:-1}
 TAG=${TAG:-_DBs}
 PKGTYPE=${PKGTYPE:-tgz}
@@ -40,8 +40,6 @@ if [ -z "$ARCH" ]; then
   esac
 fi
 
-# If the variable PRINT_PACKAGE_NAME is set, then this script will report what
-# the name of the created package would be, and then exit. This information
 # could be useful to other scripts.
 if [ ! -z "${PRINT_PACKAGE_NAME}" ]; then
   echo "$PRGNAM-$VERSION-$ARCH-$BUILD$TAG.$PKGTYPE"
@@ -64,14 +62,13 @@ rm -rf $PKG
 mkdir -p $TMP $PKG $OUTPUT
 cd $TMP
 rm -rf $PRGNAM-$DEBNAM
+
+ar x $CWD/$SRCNAM-$DEBNAM.deb data.tar.xz
 mkdir -p $PRGNAM-$VERSION
+tar -xvf data.tar.xz -C $PRGNAM-$VERSION/
+rm data.tar.xz
+
 cd $PRGNAM-$VERSION
-ar x $CWD/$SRCNAM-$DEBNAM.deb
-rm debian-binary
-rm control.tar.xz
-xz -d data.tar.xz
-tar -xf data.tar
-rm data.tar
 chown -R root:root .
 find -L . \
 \( -perm 777 -o -perm 775 -o -perm 750 -o -perm 711 -o -perm 555 \
@@ -83,8 +80,6 @@ mkdir -p $PKG/{usr/bin,usr/doc}
 mv $TMP/$PRGNAM-$VERSION/usr/share/doc/$PRGNAM $PKG/usr/doc/$PRGNAM-$VERSION
 rm -r $TMP/$PRGNAM-$VERSION/usr/share/doc
 cp -a $TMP/$PRGNAM-$VERSION/usr $PKG
-
-# ln -s /usr/lib/$PRGNAM/"Proton Mail Beta" $PKG/usr/bin/$PRGNAM
 
 find $PKG -print0 | xargs -0 file | grep -e "executable" -e "shared object" | grep ELF \
   | cut -f 1 -d : | xargs strip --strip-unneeded 2> /dev/null || true
