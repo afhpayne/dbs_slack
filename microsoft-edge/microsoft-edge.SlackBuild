@@ -2,7 +2,7 @@
 #
 # Slackware build script for microsoft-edge.
 #
-# Copyright 2026 Andrew Payne <phalange@komputermatrix.com>
+# Copyright 2025-2026 Andrew Payne <phalange@komputermatrix.com>
 # Copyright 2021  Reza Talebi, Shahin Shahr, Iran.
 # Copyright 2023 Andrew Payne <phalange@komputermatrix.com>
 # Copyright 2024  Reza Talebi, Shahin Shahr, Iran.
@@ -28,7 +28,7 @@
 cd $(dirname $0) ; CWD=$(pwd)
 
 PRGNAM=microsoft-edge
-VERSION=${VERSION:-143.0.3650.139}
+VERSION=${VERSION:-144.0.3719.92}
 BUILD=${BUILD:-1}
 TAG=${TAG:-_DBs}
 PKGTYPE=${PKGTYPE:-tgz}
