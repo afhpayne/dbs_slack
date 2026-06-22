@@ -28,7 +28,7 @@
 cd $(dirname $0) ; CWD=$(pwd)
 
 PRGNAM=microsoft-edge
-VERSION=${VERSION:-149.0.4022.69}
+VERSION=${VERSION:-149.0.4022.80}
 BUILD=${BUILD:-1}
 TAG=${TAG:-_DBs}
 PKGTYPE=${PKGTYPE:-tgz}
@@ -90,6 +90,12 @@ mv $PKG/usr/doc/$PRGNAM-$DEBTAG \
    $PKG/usr/doc/$PRGNAM-$VERSION
 
 rm -rf $PKG/usr/share/{gnome-control-center,menu}
+
+
+find $PKG -print0 | xargs -0 file | grep -e "executable" -e "shared object" | grep ELF \
+  | cut -f 1 -d : | xargs strip --strip-unneeded 2> /dev/null || true
+find $PKG -print0 | xargs -0 file | grep -e "executable" -e "shared object" | grep ELF \
+  | cut -f 1 -d : | xargs chmod 0755 2> /dev/null || true
 
 mkdir -p $PKG/usr/share/pixmaps
 cp -a \
