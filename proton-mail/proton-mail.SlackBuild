@@ -25,12 +25,12 @@
 cd $(dirname $0) ; CWD=$(pwd)
 
 PRGNAM=proton-mail
-SRCNAM=ProtonMail
-DEBNAM=desktop-beta
-VERSION=${VERSION:-1.13.3}
+VERSION=${VERSION:-1.13.4}
 BUILD=${BUILD:-1}
 TAG=${TAG:-_DBs}
 PKGTYPE=${PKGTYPE:-tgz}
+SRCNAM=ProtonMail
+DEBNAM=desktop-beta
 
 if [ -z "$ARCH" ]; then
   case "$( uname -m )" in
@@ -76,15 +76,19 @@ find -L . \
 \( -perm 666 -o -perm 664 -o -perm 640 -o -perm 600 -o -perm 444 \
 -o -perm 440 -o -perm 400 \) -exec chmod 644 {} \;
 
-mkdir -p $PKG/{usr/bin,usr/doc}
-mv $TMP/$PRGNAM-$VERSION/usr/share/doc/$PRGNAM $PKG/usr/doc/$PRGNAM-$VERSION
-rm -r $TMP/$PRGNAM-$VERSION/usr/share/doc
-cp -a $TMP/$PRGNAM-$VERSION/usr $PKG
+cp -ar $TMP/$PRGNAM-$VERSION/usr $PKG
+mv $PKG/usr/lib $PKG/usr/lib64
+mv $PKG/usr/share/doc $PKG/usr
+mv $PKG/usr/doc/$PRGNAM $PKG/usr/doc/$PRGNAM-$VERSION
+rm $PKG/usr/bin/proton-mail
+ln -s /usr/lib64/$PRGNAM/"Proton Mail Beta" $PKG/usr/bin/proton-mail
 
 find $PKG -print0 | xargs -0 file | grep -e "executable" -e "shared object" | grep ELF \
   | cut -f 1 -d : | xargs strip --strip-unneeded 2> /dev/null || true
 
-mkdir -p $PKG/usr/doc/$PRGNAM-$VERSION
+cp -a \
+   $PKG/usr/lib64/$PRGNAM/LICENSES.chromium.html \
+   $PKG/usr/doc/$PRGNAM-$VERSION
 cat $CWD/$PRGNAM.SlackBuild > $PKG/usr/doc/$PRGNAM-$VERSION/$PRGNAM.SlackBuild
 
 mkdir -p $PKG/install
