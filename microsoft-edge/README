@@ -1,0 +1,10 @@
+Microsoft Edge is a proprietary cross-platform web browser
+created by Microsoft and based on the Chromium open-source
+project, superseding Edge Legacy.
+
+NOTE
+Microsoft Edge requires /etc/machine-id in order to run.
+If the browser fails to start, you may need to run this
+command as root to create a symlink for the needed file.
+
+ln -s /var/lib/dbus/machine-id /etc/machine-id
